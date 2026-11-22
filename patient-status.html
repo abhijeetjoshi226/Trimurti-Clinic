@@ -22,4 +22,4 @@ function render(){
  const cx=document.getElementById('cx');if(cx)cx.onclick=()=>{if(confirm('Cancel this appointment?')){TC.cancel(me.id);render()}};
 }
 render();TC.onChange(render);
-</script></body></html>
+</script><script>if("serviceWorker"in navigator&&top===window)navigator.serviceWorker.register("sw.js").catch(()=>{})</script></body></html>

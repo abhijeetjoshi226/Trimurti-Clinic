@@ -25,4 +25,4 @@ function render(){
  document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{TC.togglePriority(b.dataset.p);render()});
 }
 render();TC.onChange(render);
-</script></body></html>
+</script><script>if("serviceWorker"in navigator&&top===window)navigator.serviceWorker.register("sw.js").catch(()=>{})</script></body></html>

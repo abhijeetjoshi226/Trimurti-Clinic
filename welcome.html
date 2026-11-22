@@ -10,4 +10,4 @@ document.getElementById('app').innerHTML=`<div class="sb"><span>9:41</span><span
  <a class="role" href="reception.html"><div class="ic" style="background:var(--amber-l);color:#B45309">${icon('list',26)}</div><div><b>Reception</b><span>Today's list, check-in &amp; token assignment</span></div><div class="go">${icon('arrow')}</div></a>
  <a class="role" href="doctor-setup.html"><div class="ic" style="background:var(--p-l);color:var(--p-d)">${icon('heart',26)}</div><div><b>Doctor</b><span>Start the day, set limits &amp; priority patients</span></div><div class="go">${icon('arrow')}</div></a>
  <p class="empty">Demo build · data is stored in this browser only</p></main>`;
-</script></body></html>
+</script><script>if("serviceWorker"in navigator&&top===window)navigator.serviceWorker.register("sw.js").catch(()=>{})</script></body></html>

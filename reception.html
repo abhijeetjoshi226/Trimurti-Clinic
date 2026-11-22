@@ -38,4 +38,4 @@ function render(){
    if(r.err){err=r.err;render()}else{sheet=false;render();TC.toast('Token '+r.ok.token+' given to '+n.split(' ')[0])}}}
 }
 render();TC.onChange(render);
-</script></body></html>
+</script><script>if("serviceWorker"in navigator&&top===window)navigator.serviceWorker.register("sw.js").catch(()=>{})</script></body></html>

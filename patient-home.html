@@ -19,4 +19,4 @@ function render(){
  document.getElementById('app').innerHTML=shell('patient','patient-home.html',hdr,body);
 }
 render();TC.onChange(render);
-</script></body></html>
+</script><script>if("serviceWorker"in navigator&&top===window)navigator.serviceWorker.register("sw.js").catch(()=>{})</script></body></html>
