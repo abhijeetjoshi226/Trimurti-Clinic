@@ -107,3 +107,14 @@ html.framed .app>.hdr:first-child{padding-top:16px}
 .now .tkn{width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:30px;font-weight:800}
 .now b{font-size:18px;display:block}.now span{opacity:.85;font-size:13px}
 .now .btn{background:#fff;color:var(--p-d);box-shadow:none}
+
+/* Installed app (Samsung/Android): keep content clear of the system nav bar even if the OS reports no inset */
+:root{--safe-b:env(safe-area-inset-bottom,0px)}
+@media (display-mode:standalone),(display-mode:fullscreen),(display-mode:minimal-ui){
+  :root{--safe-b:max(env(safe-area-inset-bottom,0px),28px)}
+  .tabbar{padding-bottom:calc(10px + var(--safe-b))}
+  .fab{bottom:calc(84px + var(--safe-b))}
+  .toast{bottom:calc(90px + var(--safe-b))}
+  .sheet{padding-bottom:calc(24px + var(--safe-b))}
+  .scroll{padding-bottom:calc(24px + var(--safe-b))}
+}
