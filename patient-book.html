@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/style.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"><title>Patient · Book</title></head><body><div class="app" id="app"></div><script src="js/tc.js"></script><script>
+const {icon,esc,fmtTime,shell}=TC;
+let draft={name:'',phone:'',age:'',reason:'General check-up'},done=null,err='';
+const REASONS=['General check-up','Fever & cold','Stomach pain','Skin issue','BP / Sugar','Follow-up'];
+function render(){
+ const s=TC.load(),c=s.clinic,left=Math.max(0,c.online-TC.stats(s).online);
+ const hdr=`<div class="hdr"><h1>Book appointment</h1><p>${done?'Booking confirmed':'Fill in your details'}</p></div>`;
+ let body;
+ if(done){
+  body=`<div class="card big" style="margin-top:-12px"><div style="width:60px;height:60px;border-radius:50%;background:var(--green-l);color:var(--green);display:grid;place-items:center;margin:0 auto 10px">${icon('check',32)}</div>
+   <h3 style="margin:0">You're booked, ${esc(done.name.split(' ')[0])}!</h3><p style="color:var(--mut);font-size:13px;margin-top:4px">Your unique appointment number</p>
+   <div class="uid">${esc(done.id)}</div>
+   <p style="color:var(--mut);font-size:12.5px">Show this number at reception. You'll get your <b>token</b> in order of arrival.</p></div>
+   <div class="card"><div class="kv"><span>Patient</span><b>${esc(done.name)}</b></div><div class="kv"><span>Reason</span><b>${esc(done.reason)}</b></div><div class="kv"><span>Clinic starts</span><b>${fmtTime(c.start)}</b></div></div>
+   <a class="btn" href="patient-status.html">Track my token</a>`;
+ } else {
+  body=`<div class="banner ${left?'ok':'err'}" style="margin-top:-6px">${icon('info',20)}<span>${!c.open?'Clinic not open yet for today.':left?`${left} online slot${left>1?'s':''} left today · doctor starts ${fmtTime(c.start)}`:'Online slots are full for today.'}</span></div>
+   ${err?`<div class="banner err">${esc(err)}</div>`:''}
+   <div class="card">
+    <div class="field"><label>Full name</label><input id="n" value="${esc(draft.name)}" placeholder="e.g. Sunita Patil"></div>
+    <div class="field"><label>Mobile number</label><input id="p" inputmode="tel" value="${esc(draft.phone)}" placeholder="98XXX XXXXX"></div>
+    <div class="field"><label>Age</label><input id="a" inputmode="numeric" value="${esc(draft.age)}" placeholder="Years"></div>
+    <div class="field" style="margin:0"><label>Reason for visit</label><div class="chips">${REASONS.map(r=>`<button class="chip ${r===draft.reason?'on':''}" data-r="${r}">${r}</button>`).join('')}</div></div></div>
+   <button class="btn" id="go" ${c.open&&left?'':'disabled'}>Confirm booking</button>`;
+ }
+ document.getElementById('app').innerHTML=shell('patient','patient-book.html',hdr,body);
+ if(!done){
+  const sync=()=>{draft.name=n.value;draft.phone=p.value;draft.age=a.value};
+  document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{sync();draft.reason=b.dataset.r;render()});
+  go.onclick=()=>{sync();if(!draft.name.trim()||draft.phone.replace(/\D/g,'').length<10){err='Please enter your name and a valid 10-digit mobile number.';render();return}
+   const r=TC.book({name:draft.name.trim(),phone:draft.phone,age:draft.age,reason:draft.reason});
+   if(r.err){err=r.err;render()}else{done=r.ok;err='';render()}};
+ }
+}
+render();
+</script></body></html>

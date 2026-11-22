@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/style.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"><title>Patient · My token</title></head><body><div class="app" id="app"></div><script src="js/tc.js"></script><script>
+const {icon,esc,shell}=TC;
+function render(){
+ const s=TC.load(),me=TC.find(s,TC.me()),q=TC.queue(s),cur=TC.current(s);
+ const hdr=`<div class="hdr"><h1>My token</h1><p>Live queue status</p></div>`;
+ let body;
+ if(!me||me.status==='cancelled'){body=`<div class="card empty" style="margin-top:-8px">No active appointment.<br><br><a class="btn" href="patient-book.html">Book now</a></div>`}
+ else{
+  const idx=q.findIndex(a=>a.id===me.id),wait=(Math.max(idx,0)+(cur?1:0))*s.clinic.avg;
+  const stage=me.status==='booked'?0:me.status==='arrived'?1:me.status==='in'?2:3;
+  const bigLbl=me.status==='booked'?'Token not issued yet':me.status==='in'?'It’s your turn':me.status==='done'?'Visit completed':'Your token';
+  const bigNum=me.token?me.token:'—';
+  body=`<div class="card big" style="margin-top:-12px"><div class="lbl">${bigLbl}</div><div class="num" ${me.status==='in'?'style="color:var(--green)"':''}>${me.status==='done'?'✓':bigNum}</div>
+   ${me.priority?'<span class="badge amber">★ Priority patient — you go first</span>':''}
+   <div class="uid" style="font-size:16px">${esc(me.id)}</div>
+   <p style="color:var(--mut);font-size:13px">${me.status==='booked'?'Show this ID at reception. They will give you a token when you arrive.':me.status==='arrived'?`${idx} patient${idx===1?'':'s'} ahead · about ${wait} min wait`:me.status==='in'?'Please go in to the doctor’s cabin.':'Thank you. Get well soon!'}</p></div>
+   <div class="card"><div class="steps">${['Booked','Token','With doctor','Done'].map((t,i)=>`<div class="${i<=stage?'on':''}"><i>${i<stage?'✓':i+1}</i>${t}</div>`).join('')}</div></div>
+   <div class="card"><div class="kv"><span>Now serving</span><b>${cur?'Token '+cur.token:'—'}</b></div><div class="kv"><span>Waiting in queue</span><b>${q.length}</b></div><div class="kv"><span>Patient</span><b>${esc(me.name)}</b></div></div>
+   ${me.status==='booked'||me.status==='arrived'?'<button class="btn danger" id="cx">Cancel appointment</button>':''}`;
+ }
+ document.getElementById('app').innerHTML=shell('patient','patient-status.html',hdr,body);
+ const cx=document.getElementById('cx');if(cx)cx.onclick=()=>{if(confirm('Cancel this appointment?')){TC.cancel(me.id);render()}};
+}
+render();TC.onChange(render);
+</script></body></html>

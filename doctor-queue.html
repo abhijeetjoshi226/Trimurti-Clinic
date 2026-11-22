@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/style.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"><title>Doctor · Queue</title></head><body><div class="app" id="app"></div><script src="js/tc.js"></script><script>
+const {icon,esc,fmtTime,shell}=TC;
+function item(a,i){
+ return `<div class="item ${a.priority?'pri':''}"><div class="tk">${a.token}</div><div class="mid"><div class="nm">${esc(a.name)}</div><div class="sub">${esc(a.reason)}${a.age?' · '+esc(a.age)+' yrs':''}</div>
+  <div class="meta">${i===0?'<span class="badge green">Next</span>':''}${a.priority?'<span class="badge amber">★ Priority</span>':''}</div></div>
+  <button class="star ${a.priority?'on':''}" data-p="${a.id}">${icon('star')}</button></div>`;
+}
+function render(){
+ const s=TC.load(),st=TC.stats(s),c=s.clinic,q=TC.queue(s),cur=TC.current(s);
+ const away=TC.live(s).filter(a=>a.status==='booked');
+ const hdr=`<div class="hdr"><div class="row"><div><p>Starts ${fmtTime(c.start)} · ${st.done}/${st.total} seen</p><h1>Patient queue</h1></div><div class="avatar">${icon('users')}</div></div></div>`;
+ const body=`<div class="now" style="margin-top:-24px;position:relative"><div class="lbl">${cur?'Now consulting':'No patient inside'}</div>
+  ${cur?`<div class="row"><div class="tkn">${cur.token}</div><div><b>${esc(cur.name)}</b><span>${esc(cur.reason)}${cur.age?' · '+esc(cur.age)+' yrs':''}</span></div></div>`:'<div class="row"><div class="tkn">–</div><div><b>Ready when you are</b><span>'+q.length+' patient'+(q.length===1?'':'s')+' waiting</span></div></div>'}
+  <button class="btn" id="next" ${!cur&&!q.length?'disabled':''}>${cur?(q.length?'Complete &amp; call next':'Complete consultation'):'Call first patient'}</button></div>
+  <div class="sec">Waiting · token order <span>${q.length}</span></div>
+  ${q.length?q.map(item).join(''):'<div class="empty">Queue is empty. Reception gives tokens as patients arrive.</div>'}
+  <div class="sec">Booked · not arrived <span>${away.length}</span></div>
+  ${away.length?away.map(a=>`<div class="item ${a.priority?'pri':''}"><div class="tk none">Not<br>here</div><div class="mid"><div class="nm">${esc(a.name)}</div><div class="sub">${esc(a.id)} · ${esc(a.reason)}</div>${a.priority?'<div class="meta"><span class="badge amber">★ Priority</span></div>':''}</div><button class="star ${a.priority?'on':''}" data-p="${a.id}">${icon('star')}</button></div>`).join(''):'<div class="empty">Everyone has arrived.</div>'}`;
+ document.getElementById('app').innerHTML=shell('doctor','doctor-queue.html',hdr,body);
+ document.getElementById('next').onclick=()=>{TC.callNext();render()};
+ document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{TC.togglePriority(b.dataset.p);render()});
+}
+render();TC.onChange(render);
+</script></body></html>

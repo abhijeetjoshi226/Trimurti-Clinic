@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/style.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"><title>Trimurti Clinic</title></head><body><div class="app" id="app"></div><script src="js/tc.js"></script><script>
+const {icon}=TC;
+document.getElementById('app').innerHTML=`<div class="sb"><span>9:41</span><span>●●● &nbsp;100%</span></div>
+<div class="hdr" style="padding:34px 24px 40px;border-radius:0 0 40px 40px">
+  <div style="width:64px;height:64px;border-radius:20px;background:#fff;color:var(--p);display:grid;place-items:center;margin-bottom:18px">
+   <svg viewBox="0 0 24 24" width="38" height="38" fill="currentColor"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></svg></div>
+  <h1 style="font-size:28px">Trimurti Clinic</h1><p>Skip the waiting room crowd.<br>Book, get your token, and see the doctor in order.</p></div>
+<main class="scroll"><div class="sec">Continue as</div>
+ <a class="role" href="patient-home.html"><div class="ic" style="background:var(--blue-l);color:var(--blue)">${icon('user',26)}</div><div><b>Patient</b><span>Book an appointment &amp; track your token</span></div><div class="go">${icon('arrow')}</div></a>
+ <a class="role" href="reception.html"><div class="ic" style="background:var(--amber-l);color:#B45309">${icon('list',26)}</div><div><b>Reception</b><span>Today's list, check-in &amp; token assignment</span></div><div class="go">${icon('arrow')}</div></a>
+ <a class="role" href="doctor-setup.html"><div class="ic" style="background:var(--p-l);color:var(--p-d)">${icon('heart',26)}</div><div><b>Doctor</b><span>Start the day, set limits &amp; priority patients</span></div><div class="go">${icon('arrow')}</div></a>
+ <p class="empty">Demo build · data is stored in this browser only</p></main>`;
+</script></body></html>

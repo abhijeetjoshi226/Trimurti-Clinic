@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/style.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"><title>Reception · Appointments</title></head><body><div class="app" id="app"></div><script src="js/tc.js"></script><script>
+const {icon,esc,fmtTime,fmtDate,shell}=TC;
+let filter='all',q='',sheet=false,err='';
+function row(a){
+ const tk=a.token?`<div class="tk ${a.status==='in'?'now':''}">${a.token}</div>`:`<div class="tk none">No<br>token</div>`;
+ const act=a.status==='booked'?`<button class="btn sm" data-ci="${a.id}">Give token</button>`
+  :a.status==='arrived'?'<span class="badge teal">In queue</span>':a.status==='in'?'<span class="badge green">With doctor</span>':a.status==='done'?'<span class="badge">Done</span>':'<span class="badge red">Cancelled</span>';
+ return `<div class="item ${a.priority&&a.status!=='done'?'pri':''}">${tk}<div class="mid"><div class="nm">${esc(a.name)}</div><div class="sub">${esc(a.id)} · ${esc(a.reason)}</div>
+  <div class="meta"><span class="badge ${a.mode==='online'?'blue':'amber'}">${a.mode==='online'?'Online':'Walk-in'}</span>${a.priority?'<span class="badge amber">★ Priority</span>':''}</div></div>${act}</div>`;
+}
+function render(){
+ const s=TC.load(),st=TC.stats(s),c=s.clinic;
+ const list=s.appts.filter(a=>{
+  if(filter==='awaiting'&&a.status!=='booked')return false;
+  if(filter==='queue'&&!['arrived','in'].includes(a.status))return false;
+  if(filter==='done'&&a.status!=='done')return false;
+  const t=q.toLowerCase();return !t||a.name.toLowerCase().includes(t)||a.id.toLowerCase().includes(t)||(a.phone||'').includes(t);
+ }).sort((x,y)=>(y.priority-x.priority)||((x.token||999)-(y.token||999))||x.id.localeCompare(y.id));
+ const hdr=`<div class="hdr"><div class="row"><div><p>${fmtDate()}</p><h1>Today's appointments</h1></div><div class="avatar">${icon('list')}</div></div>
+  <p style="margin-top:8px">Doctor starts <b>${fmtTime(c.start)}</b> · ${st.total}/${c.capacity} booked · Next token <b>#${s.nextToken}</b></p></div>`;
+ const body=`<div class="tiles" style="margin-top:-14px"><div class="tile"><b>${st.booked}</b><span>Awaiting</span></div><div class="tile"><b>${st.waiting}</b><span>In queue</span></div><div class="tile"><b>${st.done}</b><span>Done</span></div><div class="tile"><b>${st.online}/${c.online}</b><span>Online</span></div></div>
+  <div class="field" style="margin-bottom:10px"><input id="q" placeholder="Search name, mobile or TC-ID" value="${esc(q)}"></div>
+  <div class="seg">${[['all','All'],['awaiting','Awaiting'],['queue','Queue'],['done','Done']].map(f=>`<button data-f="${f[0]}" class="${filter===f[0]?'on':''}">${f[1]}</button>`).join('')}</div>
+  ${list.length?list.map(row).join(''):'<div class="empty">No appointments found.</div>'}`;
+ const sh=sheet?`<div class="sheet-bg" id="bg"><div class="sheet"><h3>Add walk-in patient</h3>${err?`<div class="banner err">${esc(err)}</div>`:''}
+  <div class="field"><label>Name</label><input id="wn" placeholder="Patient name"></div><div class="field"><label>Mobile</label><input id="wp" inputmode="tel"></div>
+  <div class="field"><label>Reason</label><input id="wr" value="Walk-in visit"></div><button class="btn" id="wsave">Add &amp; give token</button></div></div>`:'';
+ const fab=`<button class="fab" id="fab">${icon('plus',20)} Walk-in</button>`;
+ document.getElementById('app').innerHTML=shell('reception','reception.html',hdr,body,fab+sh);
+ const $=id=>document.getElementById(id);
+ $('q').oninput=e=>{q=e.target.value;const p=e.target.selectionStart;render();const n=$('q');n.focus();n.setSelectionRange(p,p)};
+ document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{filter=b.dataset.f;render()});
+ document.querySelectorAll('[data-ci]').forEach(b=>b.onclick=()=>{const a=TC.checkIn(b.dataset.ci);render();TC.toast('Token '+a.token+' given to '+a.name.split(' ')[0])});
+ $('fab').onclick=()=>{sheet=true;err='';render()};
+ if(sheet){$('bg').onclick=e=>{if(e.target.id==='bg'){sheet=false;render()}};
+  $('wsave').onclick=()=>{const n=$('wn').value.trim();if(!n){err='Enter the patient name.';render();return}
+   const r=TC.addWalkin({name:n,phone:$('wp').value,age:'',reason:$('wr').value||'Walk-in visit'});
+   if(r.err){err=r.err;render()}else{sheet=false;render();TC.toast('Token '+r.ok.token+' given to '+n.split(' ')[0])}}}
+}
+render();TC.onChange(render);
+</script></body></html>

@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/style.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"><title>Doctor · Day setup</title></head><body><div class="app" id="app"></div><script src="js/tc.js"></script><script>
+const {icon,esc,shell}=TC;
+let d=null,saved=false;
+function render(){
+ const s=TC.load();if(!d)d={...s.clinic};
+ const hdr=`<div class="hdr"><div class="row"><div><p>Good morning, Doctor</p><h1>Set up today's clinic</h1></div><div class="avatar">${icon('heart')}</div></div></div>`;
+ const walk=d.capacity-d.online;
+ const pr=TC.live(s).filter(a=>['booked','arrived'].includes(a.status));
+ const body=`<div class="card" style="margin-top:-24px;position:relative">
+  <div class="field"><label>Clinic start time</label><input type="time" id="t" value="${d.start}"></div>
+  <div class="stepper"><div class="l"><b>Patients today</b><span>Total you can attend</span></div><div class="c"><button data-k="capacity" data-v="-1">−</button><output>${d.capacity}</output><button data-k="capacity" data-v="1">+</button></div></div>
+  <div class="stepper"><div class="l"><b>Online appointments</b><span>Allowed through the app</span></div><div class="c"><button data-k="online" data-v="-1">−</button><output>${d.online}</output><button data-k="online" data-v="1">+</button></div></div>
+  <div class="stepper"><div class="l"><b>Minutes per patient</b><span>Used for wait estimates</span></div><div class="c"><button data-k="avg" data-v="-1">−</button><output>${d.avg}</output><button data-k="avg" data-v="1">+</button></div></div>
+  <div class="kv" style="margin-top:6px"><span>Reserved for walk-ins</span><b>${walk}</b></div>
+  <div class="stepper"><div class="l"><b>Accept bookings</b><span>Open the clinic for patients</span></div><button class="toggle ${d.open?'on':''}" id="op"></button></div></div>
+  <button class="btn" id="save">${saved?'✓ Saved — clinic is live':'Save &amp; start clinic day'}</button>
+  <div class="sec">Priority patients <span class="badge amber">★ goes first</span></div>
+  ${pr.length?pr.map(a=>`<div class="item ${a.priority?'pri':''}"><div class="mid"><div class="nm">${esc(a.name)}</div><div class="sub">${esc(a.id)} · ${esc(a.reason)}</div></div><button class="star ${a.priority?'on':''}" data-p="${a.id}">${icon('star')}</button></div>`).join(''):'<div class="empty">No patients to prioritise yet.</div>'}`;
+ document.getElementById('app').innerHTML=shell('doctor','doctor-setup.html',hdr,body);
+ document.getElementById('t').onchange=e=>{d.start=e.target.value;saved=false};
+ document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const k=b.dataset.k;d[k]=Math.max(k==='avg'?1:0,d[k]+ +b.dataset.v);
+  if(k==='capacity'&&d.online>d.capacity)d.online=d.capacity;if(k==='online'&&d.online>d.capacity)d.capacity=d.online;saved=false;render()});
+ document.getElementById('op').onclick=()=>{d.open=!d.open;saved=false;render()};
+ document.getElementById('save').onclick=()=>{TC.saveClinic(d);saved=true;render();TC.toast('Clinic settings saved')};
+ document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{TC.togglePriority(b.dataset.p);render()});
+}
+render();TC.onChange(render);
+</script></body></html>

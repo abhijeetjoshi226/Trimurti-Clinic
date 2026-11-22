@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/style.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"><title>Patient · Home</title></head><body><div class="app" id="app"></div><script src="js/tc.js"></script><script>
+const {icon,esc,fmtTime,fmtDate,shell}=TC;
+function render(){
+ const s=TC.load(),c=s.clinic,st=TC.stats(s),left=Math.max(0,c.online-st.online),me=TC.find(s,TC.me());
+ const hdr=`<div class="hdr"><div class="row"><div><p>${fmtDate()}</p><h1>Hello, welcome 👋</h1></div><div class="avatar">${icon('user')}</div></div></div>`;
+ const body=`<div class="card" style="margin-top:-24px;position:relative">
+   <div class="row" style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">Clinic today</h3><span class="badge ${c.open?'green':'red'}">${c.open?'● Open':'Closed'}</span></div>
+   <div class="kv" style="margin-top:8px"><span>Doctor starts at</span><b>${fmtTime(c.start)}</b></div>
+   <div class="kv"><span>Online slots left</span><b>${left} of ${c.online}</b></div>
+   <div class="bar" style="margin:10px 0 14px"><i style="width:${c.online?Math.min(100,st.online/c.online*100):0}%"></i></div>
+   <a class="btn ${c.open&&left?'':'ghost'}" href="patient-book.html">${icon('cal',20)} Book appointment</a></div>
+  <div class="sec">My appointment</div>
+  ${me&&me.status!=='cancelled'?`<a class="card" href="patient-status.html" style="display:block"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:800;font-family:ui-monospace,monospace">${esc(me.id)}</div><div style="color:var(--mut);font-size:12.5px;margin-top:2px">${esc(me.name)} · ${esc(me.reason)}</div></div>
+   <span class="badge ${me.status==='booked'?'amber':me.status==='done'?'green':'teal'}">${me.token?'Token '+me.token:me.status==='booked'?'Not arrived':me.status}</span></div>
+   <div style="color:var(--p);font-weight:700;font-size:13px;margin-top:10px">Track my token →</div></a>`
+   :'<div class="card empty">No active appointment yet.</div>'}
+  <div class="sec">How it works</div>
+  <div class="card"><div class="kv"><span>1</span><b>Book online · get your unique ID</b></div><div class="kv"><span>2</span><b>Show ID at reception on arrival</b></div><div class="kv"><span>3</span><b>Receive token · wait for your turn</b></div></div>`;
+ document.getElementById('app').innerHTML=shell('patient','patient-home.html',hdr,body);
+}
+render();TC.onChange(render);
+</script></body></html>
