@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#A03166"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="icons/icon-192.png"><link rel="stylesheet" href="css/style.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"><title>Doctor · Queue</title></head><body><div class="app" id="app"></div><script src="js/tc.js"></script><script>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#8E0F34"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="icons/icon-192.png"><link rel="stylesheet" href="css/style.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"><title>Doctor · Queue</title></head><body><div class="app" id="app"></div><script src="js/tc.js"></script><script>
 const {icon,esc,fmtTime,shell}=TC;
 function item(a,i){
  return `<div class="item ${a.priority?'pri':''}"><div class="tk">${a.token}</div><div class="mid"><div class="nm">${esc(a.name)}</div><div class="sub">${esc(a.reason)}${a.age?' · '+esc(a.age)+' yrs':''}</div>
@@ -12,7 +12,7 @@ function render(){
  const body=`<div class="now" style="margin-top:-24px;position:relative"><div class="lbl">${cur?'Now consulting':'No patient inside'}</div>
   ${cur?`<div class="row"><div class="tkn">${cur.token}</div><div><b>${esc(cur.name)}</b><span>${esc(cur.reason)}${cur.age?' · '+esc(cur.age)+' yrs':''}</span></div></div>`:'<div class="row"><div class="tkn">–</div><div><b>Ready when you are</b><span>'+q.length+' patient'+(q.length===1?'':'s')+' waiting</span></div></div>'}
   <button class="btn" id="next" ${!cur&&!q.length?'disabled':''}>${cur?(q.length?'Complete &amp; call next':'Complete consultation'):'Call first patient'}</button></div>
-  <button class="btn ghost" id="addp" style="margin-bottom:6px;border-color:var(--amber);color:#8A5A00">${icon('star',18)} Add priority patient</button>
+  <button class="btn ghost" id="addp" style="margin-bottom:6px;border-color:var(--p);color:var(--p)">${icon('star',18)} Add priority patient</button>
   <div class="sec">Waiting · token order <span>${q.length}</span></div>
   ${q.length?q.map(item).join(''):'<div class="empty">Queue is empty. Reception gives tokens as patients arrive.</div>'}
   <div class="sec">Booked · not arrived <span>${away.length}</span></div>
