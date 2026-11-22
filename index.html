@@ -5,7 +5,7 @@
 *{box-sizing:border-box;margin:0}
 body{font-family:Inter,system-ui,sans-serif;background:#E5E7EB;color:#1E1E1E;height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:13px}
 .top{height:48px;background:#2C2C2C;color:#fff;display:flex;align-items:center;gap:16px;padding:0 16px;flex:none}
-.top b{font-weight:700}.top .pill{background:#0F766E;border-radius:6px;padding:3px 9px;font-size:11px;font-weight:700}
+.top b{font-weight:700}.top .pill{background:#A03166;border-radius:6px;padding:3px 9px;font-size:11px;font-weight:700}
 .top .sp{flex:1}.top button{background:#3D3D3D;border:0;color:#fff;border-radius:6px;padding:6px 12px;font:inherit;font-weight:600;cursor:pointer}.top button:hover{background:#4D4D4D}
 .main{flex:1;display:flex;min-height:0}
 .side{width:210px;background:#fff;border-right:1px solid #D4D4D8;padding:14px 12px;flex:none;overflow:auto}
@@ -17,7 +17,7 @@ body{font-family:Inter,system-ui,sans-serif;background:#E5E7EB;color:#1E1E1E;hei
 .sec>h2{font-size:22px;font-weight:800;margin-bottom:4px}.sec>p{color:#52525B;margin-bottom:20px;max-width:760px;font-size:14px}
 .row{display:flex;gap:56px;align-items:flex-start}
 .fr{flex:none}.fr .lb{font-weight:700;color:#52525B;margin-bottom:8px;font-size:14px}
-.fr iframe{width:390px;height:844px;border:0;border-radius:36px;background:#F1F5F9;box-shadow:0 0 0 10px #111827,0 20px 50px rgba(0,0,0,.3);display:block}
+.fr iframe{width:390px;height:844px;border:0;border-radius:36px;background:#FFF7FA;box-shadow:0 0 0 10px #111827,0 20px 50px rgba(0,0,0,.3);display:block}
 .note{background:#FEF08A;padding:16px 18px;width:340px;border-radius:4px;box-shadow:0 8px 20px rgba(0,0,0,.15);font-size:13.5px;line-height:1.55;transform:rotate(-1deg)}
 .note h3{margin-bottom:6px;font-size:15px}.note li{margin-left:18px}
 .sw{display:flex;gap:14px;flex-wrap:wrap;max-width:760px}
@@ -31,7 +31,7 @@ body{font-family:Inter,system-ui,sans-serif;background:#E5E7EB;color:#1E1E1E;hei
 <div class="canvas"><div class="board">
 
 <div class="sec" id="flow"><h2>Overview &amp; flow</h2><p>Every frame below is a live, clickable screen. Actions in one role update the others (try booking as Patient, then give a token in Reception).</p>
-<div class="row"><div class="fr"><div class="lb">00 · Role select</div><iframe src="welcome.html"></iframe></div>
+<div class="row"><div class="fr"><div class="lb">00 · Splash</div><iframe src="splash.html"></iframe></div><div class="fr"><div class="lb">00 · Role select</div><iframe src="welcome.html"></iframe></div>
 <div class="note"><h3>Daily flow</h3><ol><li><b>Doctor</b> sets start time, total patients, online quota; stars priority patients.</li><li><b>Patient</b> books online → gets unique ID (TC-YYMMDD-001).</li><li><b>Reception</b> sees today's list; gives tokens in order of arrival.</li><li><b>Doctor</b> calls tokens in order — priority patients jump to the front.</li><li><b>Patient</b> tracks token, patients ahead &amp; wait time.</li></ol></div></div></div>
 
 <div class="sec" id="patient"><h2>Patient</h2><p>Book an appointment, receive a unique booking number, then track your token live.</p>
@@ -43,8 +43,8 @@ body{font-family:Inter,system-ui,sans-serif;background:#E5E7EB;color:#1E1E1E;hei
 <div class="sec" id="doctor"><h2>Doctor</h2><p>Morning setup, then run the queue. The ★ puts a patient first.</p>
 <div class="row"><div class="fr"><div class="lb">05 · Day setup</div><iframe src="doctor-setup.html"></iframe></div><div class="fr"><div class="lb">06 · Patient queue</div><iframe src="doctor-queue.html"></iframe></div></div></div>
 
-<div class="sec" id="styles"><h2>Styles</h2><p>Teal clinical palette, Inter typeface, 16px card radius.</p>
-<div class="row"><div class="sw"><div><i style="background:#0F766E"></i><b>Primary</b><span>#0F766E</span></div><div><i style="background:#115E59"></i><b>Primary dark</b><span>#115E59</span></div><div><i style="background:#CCFBF1"></i><b>Primary light</b><span>#CCFBF1</span></div><div><i style="background:#F59E0B"></i><b>Priority</b><span>#F59E0B</span></div><div><i style="background:#2563EB"></i><b>Online</b><span>#2563EB</span></div><div><i style="background:#16A34A"></i><b>Success</b><span>#16A34A</span></div><div><i style="background:#DC2626"></i><b>Danger</b><span>#DC2626</span></div><div><i style="background:#F1F5F9"></i><b>Background</b><span>#F1F5F9</span></div></div>
+<div class="sec" id="styles"><h2>Styles</h2><p>Plum, maroon &amp; gold palette from the clinic logo, Inter typeface, 16px card radius.</p>
+<div class="row"><div class="sw"><div><i style="background:#A03166"></i><b>Plum (primary)</b><span>#A03166</span></div><div><i style="background:#9A011E"></i><b>Maroon (title)</b><span>#9A011E</span></div><div><i style="background:#FCE4EE"></i><b>Blush</b><span>#FCE4EE</span></div><div><i style="background:#F5B400"></i><b>Gold (priority)</b><span>#F5B400</span></div><div><i style="background:#2563EB"></i><b>Navy (online)</b><span>#2563EB</span></div><div><i style="background:#16A34A"></i><b>Success</b><span>#16A34A</span></div><div><i style="background:#DC2626"></i><b>Danger</b><span>#DC2626</span></div><div><i style="background:#FFF7FA"></i><b>Background</b><span>#FFF7FA</span></div></div>
 <div class="type"><div style="font-size:28px;font-weight:800">Heading 28/800</div><div style="font-size:22px;font-weight:700;margin-top:6px">Title 22/700</div><div style="font-size:15px;font-weight:700;margin-top:6px">Card title 15/700</div><div style="font-size:14px;margin-top:6px">Body 14/400 — Inter</div><div style="font-size:11px;font-weight:700;color:#64748B;margin-top:6px;letter-spacing:.06em">LABEL 11/700 CAPS</div></div></div></div>
 
 </div></div></div>
