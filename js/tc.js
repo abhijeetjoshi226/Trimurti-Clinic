@@ -108,6 +108,21 @@
     const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
     document.querySelector('.app').appendChild(t); setTimeout(() => t.remove(), 1800);
   }
+  function prioritySheet(done) {
+    const bg = document.createElement('div'); bg.className = 'sheet-bg';
+    bg.innerHTML = `<div class="sheet"><h3>★ Add priority patient</h3><p style="color:var(--mut);font-size:12.5px;margin:-8px 0 12px">Goes to the front of the queue and gets the next token.</p><div class="banner err" id="pe" style="display:none"></div>
+      <div class="field"><label>Name</label><input id="pn" placeholder="Patient name"></div><div class="field"><label>Mobile (optional)</label><input id="pp" inputmode="tel"></div>
+      <div class="field"><label>Reason</label><input id="pr" value="Priority visit"></div><button class="btn" id="ps">Add as first patient</button></div>`;
+    document.querySelector('.app').appendChild(bg);
+    bg.onclick = e => { if (e.target === bg) bg.remove(); };
+    bg.querySelector('#ps').onclick = () => {
+      const n = bg.querySelector('#pn').value.trim(), pe = bg.querySelector('#pe');
+      if (!n) { pe.style.display = 'flex'; pe.textContent = 'Enter the patient name.'; return; }
+      const r = API.addWalkin({ name: n, phone: bg.querySelector('#pp').value, age: '', reason: bg.querySelector('#pr').value || 'Priority visit', priority: true });
+      if (r.err) { pe.style.display = 'flex'; pe.textContent = r.err; return; }
+      bg.remove(); done(r.ok);
+    };
+  }
   if (w.top !== w) document.documentElement.classList.add('framed');
-  w.TC = Object.assign(API, { icon, esc, fmtTime, fmtDate, shell, toast });
+  w.TC = Object.assign(API, { icon, esc, fmtTime, fmtDate, shell, toast, prioritySheet });
 })(window);

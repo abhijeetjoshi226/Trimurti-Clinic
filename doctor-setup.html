@@ -15,11 +15,13 @@ function render(){
   <div class="stepper"><div class="l"><b>Accept bookings</b><span>Open the clinic for patients</span></div><button class="toggle ${d.open?'on':''}" id="op"></button></div></div>
   <button class="btn" id="save">${saved?'✓ Saved — clinic is live':'Save &amp; start clinic day'}</button>
   <div class="sec">Priority patients <span class="badge amber">★ goes first</span></div>
+  <button class="btn ghost" id="addp" style="margin-bottom:12px;border-color:var(--amber);color:#B45309">${icon('plus',18)} Add new priority patient</button>
   ${pr.length?pr.map(a=>`<div class="item ${a.priority?'pri':''}"><div class="mid"><div class="nm">${esc(a.name)}</div><div class="sub">${esc(a.id)} · ${esc(a.reason)}</div></div><button class="star ${a.priority?'on':''}" data-p="${a.id}">${icon('star')}</button></div>`).join(''):'<div class="empty">No patients to prioritise yet.</div>'}`;
  document.getElementById('app').innerHTML=shell('doctor','doctor-setup.html',hdr,body);
  document.getElementById('t').onchange=e=>{d.start=e.target.value;saved=false};
  document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const k=b.dataset.k;d[k]=Math.max(k==='avg'?1:0,d[k]+ +b.dataset.v);
   if(k==='capacity'&&d.online>d.capacity)d.online=d.capacity;if(k==='online'&&d.online>d.capacity)d.capacity=d.online;saved=false;render()});
+ document.getElementById('addp').onclick=()=>TC.prioritySheet(a=>{render();TC.toast(a.name.split(' ')[0]+' added as priority (token '+a.token+')')});
  document.getElementById('op').onclick=()=>{d.open=!d.open;saved=false;render()};
  document.getElementById('save').onclick=()=>{TC.saveClinic(d);saved=true;render();TC.toast('Clinic settings saved')};
  document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{TC.togglePriority(b.dataset.p);render()});
