@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Walkthrough stage</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1280px;height:720px;overflow:hidden;font-family:Inter,"Noto Sans Devanagari",system-ui,sans-serif;background:linear-gradient(135deg,#EAF4FD,#F8FBFE 60%,#FFF6D9);color:#0B2545;display:flex}
+.left{width:760px;padding:64px 56px;display:flex;flex-direction:column;justify-content:center}
+.role{display:inline-block;align-self:flex-start;background:#1D7FD1;color:#fff;font-weight:800;font-size:15px;letter-spacing:.08em;text-transform:uppercase;padding:7px 16px;border-radius:99px;margin-bottom:22px;transition:.3s}
+h1{font-size:46px;line-height:1.12;font-weight:800;letter-spacing:-.02em;margin-bottom:22px}
+ul{list-style:none}li{font-size:23px;line-height:1.4;padding:9px 0 9px 36px;position:relative;color:#26406B;opacity:0;transform:translateY(8px);transition:.5s}
+li.on{opacity:1;transform:none}li:before{content:"";position:absolute;left:0;top:19px;width:16px;height:16px;border-radius:50%;background:#F5B400}
+.step{position:absolute;left:56px;top:34px;font-size:15px;font-weight:700;color:#6B84A8}
+.right{width:520px;display:grid;place-items:center}
+.phone{width:324px;height:700px;border-radius:44px;background:#111827;padding:11px;box-shadow:0 30px 60px rgba(11,37,69,.3)}
+.phone iframe{width:390px;height:844px;border:0;border-radius:32px;transform:scale(.7512);transform-origin:0 0;background:#fff;display:block}
+.scr{width:302px;height:678px;overflow:hidden;border-radius:34px}
+.brand{position:absolute;left:56px;bottom:30px;font-size:15px;font-weight:700;color:#6B84A8}
+</style></head><body>
+<div class="step" id="st"></div>
+<div class="left"><span class="role" id="rl"></span><h1 id="ti"></h1><ul id="ul"></ul></div>
+<div class="right"><div class="phone"><div class="scr"><iframe id="f" src="../splash.html"></iframe></div></div></div>
+<div class="brand">Trimurti Clinic · Mobile app walkthrough</div>
+<script>
+function scene(step,role,title,pts){st.textContent=step;rl.textContent=role;ti.textContent=title;ul.innerHTML=pts.map(p=>'<li>'+p+'</li>').join('');}
+function reveal(n){const l=[...ul.children];l.forEach((e,i)=>e.classList.toggle('on',i<n));}
+</script></body></html>
