@@ -1,19 +1,33 @@
-Scene 0: Welcome to the Trimurti Clinic mobile app. It helps a clinic manage appointments, tokens and the doctor's queue for three users: the patient, the reception, and the doctor.
-
-Scene 1: The app opens with the clinic logo splash screen. Then each person picks their role: patient, reception, or doctor.
-
-Scene 2: Every morning, the doctor sets up the day. Choose the clinic start time, how many patients can be attended, and how many online appointments are allowed. The remaining slots are kept for walk-in patients.
-
-Scene 3: If the doctor wants to prioritise a patient, tap the star. The doctor can also add a brand new priority patient, for an emergency or a senior citizen. Priority patients are called first.
-
-Scene 4: The patient opens the app and sees how many online slots are left today. They enter their name, mobile number and reason for visit. When the online limit is reached, booking closes automatically.
-
-Scene 5: After booking, the patient receives a unique appointment number. They show it at reception when they arrive. The token is given in order of arrival.
-
-Scene 6: At reception, the receptionist sees every appointment for the day. Tap give token as each patient arrives: the first to arrive gets the first token. Walk-in patients can be added with one tap.
-
-Scene 7: The doctor runs the queue by token. The patient inside is shown on top, and waiting patients follow in token order, with priority patients first. Tap complete and call next to move on.
-
-Scene 8: The patient can track their token live: the token number, how many patients are ahead, and the estimated waiting time.
-
-Scene 9: To install the app, open the link in Chrome or Samsung Internet, then choose Install app or Add to Home screen. It opens full screen with the clinic logo. Thank you.
+   1.9s  Welcome to the Trimurti Clinic mobile app.
+   5.3s  It helps the clinic manage appointments, tokens and the doctor's queue.
+  10.7s  There are three users: the patient, the reception, and the doctor.
+  15.8s  The app opens with the clinic logo splash screen.
+  19.6s  Then each person picks their role.
+  22.4s  Patient, reception, or doctor.
+  25.6s  Every morning, the doctor sets up the day.
+  29.2s  First, choose the clinic start time, and how many patients can be attended.
+  35.1s  Then set how many online appointments are allowed.
+  38.7s  The remaining slots are kept for walk-in patients. Tap save to open the clinic.
+  44.9s  To prioritise a patient, the doctor simply taps the star.
+  49.5s  The doctor can also add a brand new priority patient, for an emergency or a senior citizen.
+  56.1s  Priority patients are called first, ahead of everyone else.
+  60.7s  The patient opens the app and sees how many online slots are left today.
+  66.2s  They tap book appointment, and enter their name, mobile number and reason for visit.
+  72.6s  When the online limit is reached, booking closes automatically. Tap confirm to book.
+  79.0s  The patient receives a unique appointment number.
+  82.7s  They show it at reception when they arrive.
+  85.9s  The token is given in order of arrival.
+  89.0s  At reception, the receptionist sees every appointment for the day.
+  93.8s  Appointments can be searched by name, mobile number, or appointment ID.
+  99.6s  As each patient arrives, tap give token. The first to arrive gets the first token.
+ 106.3s  Walk-in patients can be added with one tap.
+ 110.2s  The doctor runs the queue by token.
+ 113.2s  The patient inside is shown on top, and waiting patients follow in token order, with priority patients first.
+ 121.3s  Tap complete and call next to move on.
+ 124.9s  Patients who have not arrived are listed separately.
+ 128.8s  The patient can track their token live.
+ 132.2s  They see the token number, how many patients are ahead, and the estimated waiting time.
+ 138.5s  The progress bar updates as the doctor calls patients.
+ 142.8s  To install the app, open the link in Chrome or Samsung Internet.
+ 147.7s  Choose Install app, or Add to Home screen.
+ 151.2s  It opens full screen with the clinic logo. Thank you.
